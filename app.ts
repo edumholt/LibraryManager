@@ -1,6 +1,10 @@
 import { Category } from './enums';
-import { Book, DamageLogger, Author, Librarian } from './interfaces';
-import { UniversityLibrarian } from './classes';
+import { Book, Logger, Author, Librarian } from './interfaces';
+import { UniversityLibrarian, ReferenceItem } from './classes';
+import { CalculateLateFees as CalcFee, MaxBooksAllowed, Purge } from './lib/utilityFunctions';
+import refBook from './encyclopedia';
+
+let reference = new refBook('Fact Book', 2016, 1);
 
 function GetAllBooks(): Book[] {
     let books = [
@@ -34,7 +38,7 @@ function GetBookTitlesByCategory(categoryFilter: Category = Category.Fiction): A
     const allBooks = GetAllBooks();
     const filteredTitles: Array<string> = [];
     for(let currentBook of allBooks) {
-        if(currentBook.Category === categoryFilter) {
+        if(currentBook.category === categoryFilter) {
             filteredTitles.push(currentBook.title);
         }
     }
@@ -107,9 +111,33 @@ function printBook(book: Book): void {
 
 //****************************
 
-let favLibrarian: Librarian = new UniversityLibrarian();
-favLibrarian.name = 'Sharon';
-favLibrarian.assistCustomer('Bimbo');
+let inventory: Array<Book> = [
+    { id: 10, title: 'The C Programming Language', author: 'K & R', available: true, category: Category.Software },
+    { id: 11, title: 'Code Complete', author: 'Steve McConnell', available: true, category: Category.Software },
+    { id: 12, title: '8-Bit Graphics with Cobol', author: 'A.B.', available: true, category: Category.Software },
+    { id: 13, title: 'Cool autoexec.bat Scripts!', author: 'C.D.', available: true, category: Category.Software },
+];
+
+let purgedBooks: Array<Book> = Purge<Book>(inventory);
+purgedBooks.forEach(book => console.log(book.title));
+
+// let Newspaper = class extends ReferenceItem {
+//     printCitation(): void {
+//         console.log(`Newspaper: ${this.title}`);
+//     }
+// }
+
+// let myPaper = new Newspaper('The Gazette', 2014);
+// myPaper.printItem();
+// myPaper.printCitation();
+
+// let refBook: ReferenceItem = new Encyclopedia('WorldPedia', 1928, 10);
+// refBook.printItem();
+// refBook.printCitation();
+
+// let favLibrarian: Librarian = new UniversityLibrarian();
+// favLibrarian.name = 'Sharon';
+// favLibrarian.assistCustomer('Bimbo');
 
 // let hermansBooks = GetTitles('Herman Melville');
 // hermansBooks.forEach(title => console.log(title));

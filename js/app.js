@@ -1,6 +1,8 @@
 "use strict";
 var enums_1 = require('./enums');
-var classes_1 = require('./classes');
+var utilityFunctions_1 = require('./lib/utilityFunctions');
+var encyclopedia_1 = require('./encyclopedia');
+var reference = new encyclopedia_1.default('Fact Book', 2016, 1);
 function GetAllBooks() {
     var books = [
         { id: 1, title: 'Ulysses', author: 'James Joyce', available: true, category: enums_1.Category.Fiction },
@@ -31,7 +33,7 @@ function GetBookTitlesByCategory(categoryFilter) {
     var filteredTitles = [];
     for (var _i = 0, allBooks_1 = allBooks; _i < allBooks_1.length; _i++) {
         var currentBook = allBooks_1[_i];
-        if (currentBook.Category === categoryFilter) {
+        if (currentBook.category === categoryFilter) {
             filteredTitles.push(currentBook.title);
         }
     }
@@ -100,9 +102,28 @@ function printBook(book) {
     console.log(book.title + ' by ' + book.author);
 }
 //****************************
-var favLibrarian = new classes_1.UniversityLibrarian();
-favLibrarian.name = 'Sharon';
-favLibrarian.assistCustomer('Bimbo');
+var inventory = [
+    { id: 10, title: 'The C Programming Language', author: 'K & R', available: true, category: enums_1.Category.Software },
+    { id: 11, title: 'Code Complete', author: 'Steve McConnell', available: true, category: enums_1.Category.Software },
+    { id: 12, title: '8-Bit Graphics with Cobol', author: 'A.B.', available: true, category: enums_1.Category.Software },
+    { id: 13, title: 'Cool autoexec.bat Scripts!', author: 'C.D.', available: true, category: enums_1.Category.Software },
+];
+var purgedBooks = utilityFunctions_1.Purge(inventory);
+purgedBooks.forEach(function (book) { return console.log(book.title); });
+// let Newspaper = class extends ReferenceItem {
+//     printCitation(): void {
+//         console.log(`Newspaper: ${this.title}`);
+//     }
+// }
+// let myPaper = new Newspaper('The Gazette', 2014);
+// myPaper.printItem();
+// myPaper.printCitation();
+// let refBook: ReferenceItem = new Encyclopedia('WorldPedia', 1928, 10);
+// refBook.printItem();
+// refBook.printCitation();
+// let favLibrarian: Librarian = new UniversityLibrarian();
+// favLibrarian.name = 'Sharon';
+// favLibrarian.assistCustomer('Bimbo');
 // let hermansBooks = GetTitles('Herman Melville');
 // hermansBooks.forEach(title => console.log(title));
 // LogFirstAvailable();
